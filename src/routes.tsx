@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import Home from "./pages/Home";
 import Points from "./pages/Points";
+import PointDetails from "./pages/PointDetails";
 
 const AppStack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
       >
         <AppStack.Screen name="Home" component={Home} />
         <AppStack.Screen name="Points" component={Points} />
+        <AppStack.Screen name="PointDetails" component={PointDetails} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

@@ -5,7 +5,7 @@ import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import assets from "../../assets";
 
-const Home: React.FC = () => {
+function Home() {
   const navigation = useNavigation();
 
   function handleNavigateToPoints() {
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
       </View>
     </ImageBackground>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

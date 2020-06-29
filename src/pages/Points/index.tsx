@@ -1,10 +1,9 @@
 import { Feather as Icon } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Constants from "expo-constants";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { SvgUri } from "react-native-svg";
 
 const INITIAL_MAP_REGION = {
@@ -14,15 +13,19 @@ const INITIAL_MAP_REGION = {
   longitudeDelta: 0.014,
 };
 
-const Points: React.FC = () => {
+function Points() {
   const navigation = useNavigation();
 
   function handleNavigateBack() {
     navigation.goBack();
   }
 
+  function handleNavigateToDetails() {
+    navigation.navigate("PointDetails");
+  }
+
   return (
-    <>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <TouchableOpacity onPress={handleNavigateBack}>
           <Icon name="arrow-left" color="#34cb79" size={20} />
@@ -34,7 +37,27 @@ const Points: React.FC = () => {
         </Text>
 
         <View style={styles.mapContainer}>
-          <MapView style={styles.map} initialRegion={INITIAL_MAP_REGION} />
+          <MapView style={styles.map} initialRegion={INITIAL_MAP_REGION}>
+            <Marker
+              style={styles.mapMarker}
+              coordinate={{
+                latitude: INITIAL_MAP_REGION.latitude,
+                longitude: INITIAL_MAP_REGION.longitude,
+              }}
+              onPress={handleNavigateToDetails}
+            >
+              <View style={styles.mapMarkerContainer}>
+                <Image
+                  style={styles.mapMarkerImage}
+                  source={{
+                    uri:
+                      "https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+                  }}
+                />
+                <Text style={styles.mapMarkerTitle}>Olha só</Text>
+              </View>
+            </Marker>
+          </MapView>
         </View>
       </View>
 
@@ -86,15 +109,19 @@ const Points: React.FC = () => {
           </TouchableOpacity>
         </ScrollView>
       </View>
-    </>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+
   container: {
     flex: 1,
     paddingHorizontal: 32,
-    paddingTop: 20 + Constants.statusBarHeight,
+    paddingTop: 32,
   },
 
   title: {
@@ -155,7 +182,6 @@ const styles = StyleSheet.create({
   itemsContainer: {
     flexDirection: "row",
     marginTop: 16,
-    marginBottom: 32,
   },
 
   itemsScrollContainer: {
